@@ -5,6 +5,7 @@
   <arg name="vehicle_model" default="nuway_vehicle" description="vehicle model name"/>
   <arg name="sensor_model" default="nuway_sensor_kit" description="sensor model name"/>
   <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  
   <arg name="data_path" default="$(env HOME)/autoware_data" description="packages data and artifacts directory path"/>
 
   <!-- launch module preset -->
