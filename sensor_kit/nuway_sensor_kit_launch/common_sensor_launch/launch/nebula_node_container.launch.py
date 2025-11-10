@@ -41,9 +41,20 @@ def get_lidar_make(sensor_name):
 def get_vehicle_info(context):
     # TODO(TIER IV): Use Parameter Substitution after we drop Galactic support
     # https://github.com/ros2/launch_ros/blob/master/launch_ros/launch_ros/substitutions/parameter.py
-    gp = context.launch_configurations.get("ros_params", {})
-    if not gp:
-        gp = dict(context.launch_configurations.get("global_params", {}))
+    # gp = context.launch_configurations.get("ros_params", {})
+    # if not gp:
+        # gp = dict(context.launch_configurations.get("global_params", {}))
+    gp = {}
+    gp["front_overhang"] = 0.6
+    gp["wheel_base"] = 2.39
+    gp["rear_overhang"] = 0.6
+    gp["wheel_tread"] = 1.06
+    gp["rear_overhang"] = 0.6
+    gp["left_overhang"] = 0.4
+    gp["right_overhang"] = 0.4
+    gp["wheel_width"] = 0.180
+    gp["wheel_radius"] = 0.310
+    gp["vehicle_height"] = 2.8
     p = {}
     p["vehicle_length"] = gp["front_overhang"] + gp["wheel_base"] + gp["rear_overhang"]
     p["vehicle_width"] = gp["wheel_tread"] + gp["left_overhang"] + gp["right_overhang"]
@@ -175,13 +186,13 @@ def launch_setup(context, *args, **kwargs):
         )
     )
 
-    mirror_info = get_vehicle_mirror_info(context)
-    cropbox_parameters["min_x"] = mirror_info["min_longitudinal_offset"]
-    cropbox_parameters["max_x"] = mirror_info["max_longitudinal_offset"]
-    cropbox_parameters["min_y"] = mirror_info["min_lateral_offset"]
-    cropbox_parameters["max_y"] = mirror_info["max_lateral_offset"]
-    cropbox_parameters["min_z"] = mirror_info["min_height_offset"]
-    cropbox_parameters["max_z"] = mirror_info["max_height_offset"]
+    # mirror_info = get_vehicle_mirror_info(context)
+    # cropbox_parameters["min_x"] = mirror_info["min_longitudinal_offset"]
+    # cropbox_parameters["max_x"] = mirror_info["max_longitudinal_offset"]
+    # cropbox_parameters["min_y"] = mirror_info["min_lateral_offset"]
+    # cropbox_parameters["max_y"] = mirror_info["max_lateral_offset"]
+    # cropbox_parameters["min_z"] = mirror_info["min_height_offset"]
+    # cropbox_parameters["max_z"] = mirror_info["max_height_offset"]
 
     nodes.append(
         ComposableNode(
@@ -280,9 +291,9 @@ def generate_launch_description():
     add_launch_arg("use_intra_process", "False", "use ROS 2 component container communication")
     add_launch_arg("lidar_container_name", "nebula_node_container")
     add_launch_arg("output_as_sensor_frame", "True", "output final pointcloud in sensor frame")
-    add_launch_arg(
-        "vehicle_mirror_param_file", description="path to the file of vehicle mirror position yaml"
-    )
+    # add_launch_arg(
+    #     "vehicle_mirror_param_file", description="path to the file of vehicle mirror position yaml"
+    # )
     add_launch_arg(
         "distortion_correction_node_param_path",
         os.path.join(
