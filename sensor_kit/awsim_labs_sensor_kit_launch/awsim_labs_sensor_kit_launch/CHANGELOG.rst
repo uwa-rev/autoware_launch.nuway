@@ -2,6 +2,18 @@
 Changelog for package awsim_labs_sensor_kit_launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.50.0 (2026-02-13)
+-------------------
+
+0.49.0 (2025-12-30)
+-------------------
+
+0.48.0 (2025-11-16)
+-------------------
+* Merge remote-tracking branch 'origin/main' into release-humble-0.48.0
+* chore: necessary mod to run with latest gyro scale estimation changes (`#1633 <https://github.com/autowarefoundation/autoware_launch/issues/1633>`_)
+* Contributors: SergioReyesSan, mitsudome-r
+
 0.47.0 (2025-08-11)
 -------------------
 * feat(autoware_pointcloud_preprocessor): add remappings (`#1563 <https://github.com/autowarefoundation/autoware_launch/issues/1563>`_)
@@ -9,6 +21,14 @@ Changelog for package awsim_labs_sensor_kit_launch
 
 0.46.0 (2025-06-20)
 -------------------
+
+0.45.3 (2025-07-17)
+-------------------
+
+0.45.2 (2025-06-28)
+-------------------
+
+0.45.1 (2025-06-27)
 
 0.45.0 (2025-05-22)
 -------------------

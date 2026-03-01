@@ -1,87 +1,88 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="sensor_kit_macro" params="parent x y z roll pitch yaw">
-
-    <!-- Include sensor URDFs -->
     <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
-    <xacro:include filename="$(find vls_description)/urdf/VLS-128.urdf.xacro"/>
-    <xacro:include filename="$(find camera_description)/urdf/monocular_camera.xacro"/>
-    <xacro:include filename="$(find imu_description)/urdf/imu.xacro"/>
+    <xacro:include filename="$(find nuway_sensor_kit_description)/sensor/vls/urdf/VLS-128.urdf.xacro"/>
+    <xacro:include filename="$(find nuway_sensor_kit_description)/sensor/camera/urdf/monocular_camera.xacro"/>
+    <xacro:include filename="$(find nuway_sensor_kit_description)/sensor/imu/urdf/imu.xacro"/>
 
-    <!-- Macro arguments -->
     <xacro:arg name="gpu" default="false"/>
-    <xacro:arg name="config_dir" default="$(find sensor_kit_description)/config"/>
+    <xacro:arg name="config_dir" default="$(find nuway_sensor_kit_description)/config"/>
+
     <xacro:property name="sensor_kit_base_link" default="sensor_kit_base_link"/>
 
-    <!-- Base link joint -->
     <joint name="${sensor_kit_base_link}_joint" type="fixed">
       <origin rpy="${roll} ${pitch} ${yaw}" xyz="${x} ${y} ${z}"/>
       <parent link="${parent}"/>
       <child link="${sensor_kit_base_link}"/>
     </joint>
-
     <link name="${sensor_kit_base_link}">
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </link>
 
-    <!-- Load calibration YAML -->
+    <!-- sensor -->
     <xacro:property name="calibration" value="${xacro.load_yaml('$(arg config_dir)/sensor_kit_calibration.yaml')}"/>
 
-    <!-- LiDARs -->
-    <xacro:VLP-16 parent="sensor_kit_base_link" name="lidar_velodyne_front" topic="/points_raw" hz="10" samples="220" gpu="$(arg gpu)">
+    <!-- lidar -->
+    <xacro:VLP-16 parent="sensor_kit_base_link" name="velodyne_front" topic="/points_raw" hz="10" samples="220" gpu="$(arg gpu)">
       <origin
-        xyz="${calibration['sensor_kit_base_link']['lidar_velodyne_front']['x']}
-             ${calibration['sensor_kit_base_link']['lidar_velodyne_front']['y']}
-             ${calibration['sensor_kit_base_link']['lidar_velodyne_front']['z']}"
-        rpy="${calibration['sensor_kit_base_link']['lidar_velodyne_front']['roll']}
-             ${calibration['sensor_kit_base_link']['lidar_velodyne_front']['pitch']}
-             ${calibration['sensor_kit_base_link']['lidar_velodyne_front']['yaw']}"
+        xyz="${calibration['sensor_kit_base_link']['velodyne_front_base_link']['x']}
+             ${calibration['sensor_kit_base_link']['velodyne_front_base_link']['y']}
+             ${calibration['sensor_kit_base_link']['velodyne_front_base_link']['z']}"
+        rpy="${calibration['sensor_kit_base_link']['velodyne_front_base_link']['roll']}
+             ${calibration['sensor_kit_base_link']['velodyne_front_base_link']['pitch']}
+             ${calibration['sensor_kit_base_link']['velodyne_front_base_link']['yaw']}"
+      />
+    </xacro:VLP-16>
+    <xacro:VLP-16 parent="sensor_kit_base_link" name="velodyne_rear" topic="/points_raw" hz="10" samples="220" gpu="$(arg gpu)">
+      <origin
+        xyz="${calibration['sensor_kit_base_link']['velodyne_rear_base_link']['x']}
+             ${calibration['sensor_kit_base_link']['velodyne_rear_base_link']['y']}
+             ${calibration['sensor_kit_base_link']['velodyne_rear_base_link']['z']}"
+        rpy="${calibration['sensor_kit_base_link']['velodyne_rear_base_link']['roll']}
+             ${calibration['sensor_kit_base_link']['velodyne_rear_base_link']['pitch']}
+             ${calibration['sensor_kit_base_link']['velodyne_rear_base_link']['yaw']}"
       />
     </xacro:VLP-16>
 
-    <xacro:VLP-16 parent="sensor_kit_base_link" name="lidar_velodyne_rear" topic="/points_raw" hz="10" samples="220" gpu="$(arg gpu)">
-      <origin
-        xyz="${calibration['sensor_kit_base_link']['lidar_velodyne_rear']['x']}
-             ${calibration['sensor_kit_base_link']['lidar_velodyne_rear']['y']}
-             ${calibration['sensor_kit_base_link']['lidar_velodyne_rear']['z']}"
-        rpy="${calibration['sensor_kit_base_link']['lidar_velodyne_rear']['roll']}
-             ${calibration['sensor_kit_base_link']['lidar_velodyne_rear']['pitch']}
-             ${calibration['sensor_kit_base_link']['lidar_velodyne_rear']['yaw']}"
-      />
-    </xacro:VLP-16>
-
-    <!-- Cameras -->
+    <!-- camera -->
     <xacro:monocular_camera_macro
-	  namespace="camera_front"
-	  name="camera_front/camera"
+      name="camera_front/camera"
       parent="sensor_kit_base_link"
-      x="${calibration['sensor_kit_base_link']['camera_front']['x']}"
-      y="${calibration['sensor_kit_base_link']['camera_front']['y']}"
-      z="${calibration['sensor_kit_base_link']['camera_front']['z']}"
-      roll="${calibration['sensor_kit_base_link']['camera_front']['roll']}"
-      pitch="${calibration['sensor_kit_base_link']['camera_front']['pitch']}"
-      yaw="${calibration['sensor_kit_base_link']['camera_front']['yaw']}"
-      fps="30" width="800" height="400" fov="1.3"
+      namespace=""
+      x="${calibration['sensor_kit_base_link']['camera_front/camera_link']['x']}"
+      y="${calibration['sensor_kit_base_link']['camera_front/camera_link']['y']}"
+      z="${calibration['sensor_kit_base_link']['camera_front/camera_link']['z']}"
+      roll="${calibration['sensor_kit_base_link']['camera_front/camera_link']['roll']}"
+      pitch="${calibration['sensor_kit_base_link']['camera_front/camera_link']['pitch']}"
+      yaw="${calibration['sensor_kit_base_link']['camera_front/camera_link']['yaw']}"
+      fps="30"
+      width="800"
+      height="400"
+      fov="1.3"
     />
-
     <xacro:monocular_camera_macro
-      namespace="camera_rear"
       name="camera_rear/camera"
       parent="sensor_kit_base_link"
-      x="${calibration['sensor_kit_base_link']['camera_rear']['x']}"
-      y="${calibration['sensor_kit_base_link']['camera_rear']['y']}"
-      z="${calibration['sensor_kit_base_link']['camera_rear']['z']}"
-      roll="${calibration['sensor_kit_base_link']['camera_rear']['roll']}"
-      pitch="${calibration['sensor_kit_base_link']['camera_rear']['pitch']}"
-      yaw="${calibration['sensor_kit_base_link']['camera_rear']['yaw']}"
-      fps="30" width="800" height="400" fov="1.3"
+      namespace=""
+      x="${calibration['sensor_kit_base_link']['camera_rear/camera_link']['x']}"
+      y="${calibration['sensor_kit_base_link']['camera_rear/camera_link']['y']}"
+      z="${calibration['sensor_kit_base_link']['camera_rear/camera_link']['z']}"
+      roll="${calibration['sensor_kit_base_link']['camera_rear/camera_link']['roll']}"
+      pitch="${calibration['sensor_kit_base_link']['camera_rear/camera_link']['pitch']}"
+      yaw="${calibration['sensor_kit_base_link']['camera_rear/camera_link']['yaw']}"
+      fps="30"
+      width="800"
+      height="400"
+      fov="1.3"
     />
 
-    <!-- IMU -->
+    <!-- gnss -->
+    <!-- imu -->
     <xacro:imu_macro
-      namespace=""
-      name="tamagawa/imu"
+      name="imu"
       parent="sensor_kit_base_link"
+      namespace=""
       x="${calibration['sensor_kit_base_link']['imu_link']['x']}"
       y="${calibration['sensor_kit_base_link']['imu_link']['y']}"
       z="${calibration['sensor_kit_base_link']['imu_link']['z']}"
@@ -90,7 +91,5 @@
       yaw="${calibration['sensor_kit_base_link']['imu_link']['yaw']}"
       fps="100"
     />
-
   </xacro:macro>
 </robot>
-

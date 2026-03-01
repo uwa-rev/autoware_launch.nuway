@@ -41,20 +41,9 @@ def get_lidar_make(sensor_name):
 def get_vehicle_info(context):
     # TODO(TIER IV): Use Parameter Substitution after we drop Galactic support
     # https://github.com/ros2/launch_ros/blob/master/launch_ros/launch_ros/substitutions/parameter.py
-    # gp = context.launch_configurations.get("ros_params", {})
-    # if not gp:
-        # gp = dict(context.launch_configurations.get("global_params", {}))
-    gp = {}
-    gp["front_overhang"] = 0.6
-    gp["wheel_base"] = 2.39
-    gp["rear_overhang"] = 0.6
-    gp["wheel_tread"] = 1.06
-    gp["rear_overhang"] = 0.6
-    gp["left_overhang"] = 0.4
-    gp["right_overhang"] = 0.4
-    gp["wheel_width"] = 0.180
-    gp["wheel_radius"] = 0.310
-    gp["vehicle_height"] = 2.8
+    gp = context.launch_configurations.get("ros_params", {})
+    if not gp:
+        gp = dict(context.launch_configurations.get("global_params", {}))
     p = {}
     p["vehicle_length"] = gp["front_overhang"] + gp["wheel_base"] + gp["rear_overhang"]
     p["vehicle_width"] = gp["wheel_tread"] + gp["left_overhang"] + gp["right_overhang"]
@@ -84,14 +73,15 @@ def launch_setup(context, *args, **kwargs):
     # Model and make
     sensor_model = LaunchConfiguration("sensor_model").perform(context)
     sensor_make, sensor_extension = get_lidar_make(sensor_model)
-    nebula_decoders_share_dir = get_package_share_directory("nebula_decoders")
+    nebula_decoders_share_dir = get_package_share_directory(
+        "nebula_" + sensor_make.lower() + "_decoders"
+    )
 
     # Calibration file
     if sensor_extension is not None:  # Velodyne and Hesai
         sensor_calib_fp = os.path.join(
             nebula_decoders_share_dir,
             "calibration",
-            sensor_make.lower(),
             sensor_model + sensor_extension,
         )
         assert os.path.exists(
@@ -122,7 +112,7 @@ def launch_setup(context, *args, **kwargs):
 
     nodes.append(
         ComposableNode(
-            package="nebula_ros",
+            package="nebula_" + sensor_make.lower(),
             plugin=sensor_make + "RosWrapper",
             name=sensor_make.lower() + "_ros_wrapper_node",
             parameters=[
@@ -130,8 +120,6 @@ def launch_setup(context, *args, **kwargs):
                     "calibration_file": sensor_calib_fp,
                     "sensor_model": sensor_model,
                     "launch_hw": LaunchConfiguration("launch_driver"),
-                    "diag_span" : 1000,
-                    "advanced_diagnostics" : False,
                     **create_parameter_dict(
                         "host_ip",
                         "sensor_ip",
@@ -165,6 +153,7 @@ def launch_setup(context, *args, **kwargs):
 
     cropbox_parameters = create_parameter_dict("input_frame", "output_frame")
     cropbox_parameters["negative"] = True
+    cropbox_parameters["processing_time_threshold_sec"] = 0.01
 
     vehicle_info = get_vehicle_info(context)
     cropbox_parameters["min_x"] = vehicle_info["min_longitudinal_offset"]
@@ -174,41 +163,42 @@ def launch_setup(context, *args, **kwargs):
     cropbox_parameters["min_z"] = vehicle_info["min_height_offset"]
     cropbox_parameters["max_z"] = vehicle_info["max_height_offset"]
 
-    nodes.append(
-        ComposableNode(
-            package="autoware_pointcloud_preprocessor",
-            plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent",
-            name="crop_box_filter_self",
-            remappings=[
-                ("input", "pointcloud_raw_ex"),
-                ("output", "self_cropped/pointcloud_ex"),
-            ],
-            parameters=[cropbox_parameters],
-            extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
-        )
-    )
+    ### No body nor mirros get in the Velodyne PCL
+    # nodes.append(
+    #     ComposableNode(
+    #         package="autoware_pointcloud_preprocessor",
+    #         plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent",
+    #         name="crop_box_filter_self",
+    #         remappings=[
+    #             ("input", "pointcloud_raw_ex"),
+    #             ("output", "self_cropped/pointcloud_ex"),
+    #         ],
+    #         parameters=[cropbox_parameters],
+    #         extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
+    #     )
+    # )
 
-    # mirror_info = get_vehicle_mirror_info(context)
-    # cropbox_parameters["min_x"] = mirror_info["min_longitudinal_offset"]
-    # cropbox_parameters["max_x"] = mirror_info["max_longitudinal_offset"]
-    # cropbox_parameters["min_y"] = mirror_info["min_lateral_offset"]
-    # cropbox_parameters["max_y"] = mirror_info["max_lateral_offset"]
-    # cropbox_parameters["min_z"] = mirror_info["min_height_offset"]
-    # cropbox_parameters["max_z"] = mirror_info["max_height_offset"]
+    mirror_info = get_vehicle_mirror_info(context)
+    cropbox_parameters["min_x"] = mirror_info["min_longitudinal_offset"]
+    cropbox_parameters["max_x"] = mirror_info["max_longitudinal_offset"]
+    cropbox_parameters["min_y"] = mirror_info["min_lateral_offset"]
+    cropbox_parameters["max_y"] = mirror_info["max_lateral_offset"]
+    cropbox_parameters["min_z"] = mirror_info["min_height_offset"]
+    cropbox_parameters["max_z"] = mirror_info["max_height_offset"]
 
-    nodes.append(
-        ComposableNode(
-            package="autoware_pointcloud_preprocessor",
-            plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent",
-            name="crop_box_filter_mirror",
-            remappings=[
-                ("input", "self_cropped/pointcloud_ex"),
-                ("output", "mirror_cropped/pointcloud_ex"),
-            ],
-            parameters=[cropbox_parameters],
-            extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
-        )
-    )
+    # nodes.append(
+    #     ComposableNode(
+    #         package="autoware_pointcloud_preprocessor",
+    #         plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent",
+    #         name="crop_box_filter_mirror",
+    #         remappings=[
+    #             ("input", "self_cropped/pointcloud_ex"),
+    #             ("output", "mirror_cropped/pointcloud_ex"),
+    #         ],
+    #         parameters=[cropbox_parameters],
+    #         extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
+    #     )
+    # )
 
     nodes.append(
         ComposableNode(
@@ -218,7 +208,7 @@ def launch_setup(context, *args, **kwargs):
             remappings=[
                 ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
                 ("~/input/imu", "/sensing/imu/imu_data"),
-                ("~/input/pointcloud", "mirror_cropped/pointcloud_ex"),
+                ("~/input/pointcloud", "pointcloud_raw_ex"),
                 ("~/output/pointcloud", "rectified/pointcloud_ex"),
             ],
             parameters=[distortion_corrector_node_param],
@@ -293,9 +283,9 @@ def generate_launch_description():
     add_launch_arg("use_intra_process", "False", "use ROS 2 component container communication")
     add_launch_arg("lidar_container_name", "nebula_node_container")
     add_launch_arg("output_as_sensor_frame", "True", "output final pointcloud in sensor frame")
-    # add_launch_arg(
-    #     "vehicle_mirror_param_file", description="path to the file of vehicle mirror position yaml"
-    # )
+    add_launch_arg(
+        "vehicle_mirror_param_file", description="path to the file of vehicle mirror position yaml"
+    )
     add_launch_arg(
         "distortion_correction_node_param_path",
         os.path.join(

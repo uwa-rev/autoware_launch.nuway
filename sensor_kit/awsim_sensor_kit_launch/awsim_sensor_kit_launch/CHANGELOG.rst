@@ -2,12 +2,37 @@
 Changelog for package awsim_sensor_kit_launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.50.0 (2026-02-13)
+-------------------
+* Merge remote-tracking branch 'origin/main' into tmp/bot/bump_version_base
+* feat(awsim_sensor_kit_launch): remove side lidar references (`#1733 <https://github.com/autowarefoundation/autoware_launch/issues/1733>`_)
+* Contributors: Mete Fatih Cırıt, github-actions
+
+0.49.0 (2025-12-30)
+-------------------
+
+0.48.0 (2025-11-16)
+-------------------
+* Merge remote-tracking branch 'origin/main' into release-humble-0.48.0
+* feat: change AWSIM GNSS format to NavSatFix (`#1640 <https://github.com/autowarefoundation/autoware_launch/issues/1640>`_)
+* chore: necessary mod to run with latest gyro scale estimation changes (`#1633 <https://github.com/autowarefoundation/autoware_launch/issues/1633>`_)
+* Contributors: SergioReyesSan, mitsudome-r, zzhhaa10000
+
 0.47.0 (2025-08-11)
 -------------------
 * feat(autoware_pointcloud_preprocessor): add remappings (`#1563 <https://github.com/autowarefoundation/autoware_launch/issues/1563>`_)
 * Contributors: Amadeusz Szymko
 
 0.46.0 (2025-06-20)
+-------------------
+
+0.45.3 (2025-07-17)
+-------------------
+
+0.45.2 (2025-06-28)
+-------------------
+
+0.45.1 (2025-06-27)
 -------------------
 
 0.45.0 (2025-05-22)

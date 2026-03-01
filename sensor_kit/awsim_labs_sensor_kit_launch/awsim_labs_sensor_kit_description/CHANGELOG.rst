@@ -2,10 +2,41 @@
 Changelog for package awsim_labs_sensor_kit_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.50.0 (2026-02-13)
+-------------------
+* Merge remote-tracking branch 'origin/main' into tmp/bot/bump_version_base
+* chore: reflect the move of the description packages (`#1737 <https://github.com/autowarefoundation/autoware_launch/issues/1737>`_)
+* Contributors: Takagi, Isamu, github-actions
+
+0.49.0 (2025-12-30)
+-------------------
+* Merge remote-tracking branch 'origin/main' into prepare-changelog-0.49.0
+* feat: remove sensor component dependency (`#1722 <https://github.com/autowarefoundation/autoware_launch/issues/1722>`_)
+* Contributors: Ryohsuke Mitsudome, Takagi, Isamu
+
+0.48.0 (2025-11-16)
+-------------------
+* Merge remote-tracking branch 'origin/main' into release-humble-0.48.0
+* fix: add missing exec_depends for sensor description (`#1699 <https://github.com/autowarefoundation/autoware_launch/issues/1699>`_)
+  * fix: add missing exec_depends for sensor description
+  * style(pre-commit): autofix
+  ---------
+  Co-authored-by: pre-commit-ci[bot] <66853113+pre-commit-ci[bot]@users.noreply.github.com>
+* Contributors: Ryohsuke Mitsudome, mitsudome-r
+
 0.47.0 (2025-08-11)
 -------------------
 
 0.46.0 (2025-06-20)
+-------------------
+
+0.45.3 (2025-07-17)
+-------------------
+
+0.45.2 (2025-06-28)
+-------------------
+
+0.45.1 (2025-06-27)
 -------------------
 
 0.45.0 (2025-05-22)
