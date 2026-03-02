@@ -12,15 +12,11 @@
       baseFrameId: base_link
       initFrameId: map
       waitForDatum: true
-      # datum: [-31.980724295, 115.815946083 , 0.0 ] # flipped
-      #datum: [-31.97996317, 115.81716800, 0.0] #cricket building south corner
-      # datum: [-31.596454, 115.668110, 0.0]  #Flying Fox Park 
       datum: [-31.9794384, 115.8160607, 0.0]  # RTK Box
-
     uartConf:
       portName: /dev/ttyUSB0
       # portName: /dev/ttySBG
-      baudRate: 115200 #460800 #115200 921600
+      baudRate: 921600 #115200 #460800 #115200 921600
 
       # Port Id
       # 0 PORT_A: Main communication interface. Full duplex.
@@ -30,11 +26,21 @@
       # 4 PORT_E: Auxiliary input/output interface
       portID: 0
 
+    rtcm:
+      subscribe: true
+      namespace: ""
+      topic_name: "rtcm"         # default
+    
+    nmea:
+      publish: true
+      topic_name: nmea
+      namespace: ""
+
     sensorParameters:
-      initLat: -31.9794384
-      initLong: 115.8160607
+      initLat: -31.9794384 #-32.0
+      initLong: 115.8160607 #116.0
       initAlt: 20.0
-      year: 2023
+      year: 2025
       month: Jul
       day: 6
 
@@ -46,11 +52,6 @@
       # 5 HELICOPTER      For rotary wing aircraft
       motionProfile: 2
 
-    rtcm:
-      subscribe: true
-      namespace: ""
-      topic_name: "rtcm"         # default
-
     imuAlignementLeverArm:
       # IMU X axis direction in vehicle frame
       # 0 ALIGNMENT_FORWARD   IMU Axis is turned in vehicle's forward direction
@@ -61,7 +62,7 @@
       # 5 ALIGNMENT_DOWN      IMU Axis is turned in vehicle's down direction
       axisDirectionX: 0
       # IMU Y axis direction in vehicle frame
-      axisDirectionY: 2 #2
+      axisDirectionY: 2 #0
 
       # Residual error after axis alignment rad
       misRoll: 0.0
@@ -71,7 +72,7 @@
       # Primary lever arm in IMU axis (once IMU alignment is applied) m
       leverArmX: 0.0
       leverArmY: 0.0
-      leverArmZ: 2.15
+      leverArmZ: -2.15
 
     # AIDING_ASSIGNMENT
     # Note: GNSS1 module configuration can only be set to an external port on Ellipse-E version.
@@ -123,20 +124,20 @@
       gnss_model_id: 107
 
       #GNSS primary antenna lever arm in IMU X axis (m)
-      primaryLeverArmX: 1.35 #1.560
-      primaryLeverArmY: 0.250 #0.040
+      primaryLeverArmX: 1.560 #1.560
+      primaryLeverArmY: -0.5 #0.040
       primaryLeverArmZ: 0.0
       primaryLeverPrecise: false
 
       #GNSS secondary antenna lever arm in IMU X axis (m)
-      secondaryLeverArmX: -1.650 #-1.380
-      secondaryLeverArmY: 0.290 #0.040
+      secondaryLeverArmX: 1.560 #-1.380
+      secondaryLeverArmY: -0.500 #0.040
       secondaryLeverArmZ: 0.0
 
       # Secondary antenna operating mode.
       # 3 The GNSS dual antenna information will be used and we have a rough guess for the secondary lever arm.
       # 4 The GNSS dual antenna information will be used and the secondary lever arm is accurately entered and doesn't need online re-estimation.
-      secondaryLeverMode: 3
+      secondaryLeverMode: 4
 
       # 0 Measurement is not taken into account
       # 1 Measurement is rejected if inconsistent with current estimate (depending on error model)
@@ -167,7 +168,7 @@
       # 2 Measurement is always accepted
       rejectMode: 0
 
-    ############################### Output configuration ###############################
+    #########################docker exec -it lowlevel /ros_entrypoint.sh bash###### Output configuration ###############################
     # 0 Output is disabled
     # 1 Output is generated at 200Hz
     # 2 Output is generated at 100Hz
@@ -200,27 +201,26 @@
       # Frame ID:
       # Note: If the frame convention is NED so the default frame ID is (imu_link_ned)
       #       else if the convention is ENU so the default frame ID is (imu_link)
-      # frame_id: gnss0
+      frame_id: imu_link
 
       # Status general, clock, com aiding, solution, heave
       log_status: 200
       # Includes IMU status, acc., gyro, temp delta speeds and delta angles values
-      log_imu_data: 8
+      log_imu_data: 1004
       # Includes roll, pitch, yaw and their accuracies on each axis
-      log_ekf_euler: 8
+      log_ekf_euler: 1004
       # Includes the 4 quaternions values
-      # ! 2025-08-15: I don't know if below applies anymoreS
       # ! EKF_QUAT MUST BE OFF TO GET CORRECT ORIENTATION FOR imu/odometry
       # ! AS ERROR IN DRIVER, HOWEVER THIS WILL ALSO DISABLE imu/data
-      log_ekf_quat: 8
+      log_ekf_quat: 1004
       # Position and velocities in NED coordinates with the accuracies on each axis
-      log_ekf_nav: 10001
+      log_ekf_nav: 1004
       # Heave, surge and sway and accelerations on each axis for up to 4 points
       log_ship_motion: 0
       # Provides UTC time reference
-      log_utc_time: 0
+      log_utc_time: 200
       # Magnetic data with associated accelerometer on each axis
-      log_mag: 10
+      log_mag: 8
       # Magnetometer calibration data (raw buffer)
       log_mag_calib: 0
       # GPS velocities from primary or secondary GPS receiver
@@ -239,6 +239,6 @@
       log_event_c: 0
       log_event_d: 0
       # Air data
-      log_air_data: 0
+      log_air_data: 10001
       # Short IMU data
-      log_imu_short: 0
+      log_imu_short: 1004

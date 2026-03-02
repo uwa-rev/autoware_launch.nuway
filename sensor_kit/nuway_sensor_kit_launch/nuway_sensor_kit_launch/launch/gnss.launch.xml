@@ -8,7 +8,7 @@
     <!-- Switch topic name -->
     <let name="navsatfix_topic_name" value="ublox/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='ublox'&quot;)"/>
     <let name="navsatfix_topic_name" value="septentrio/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='septentrio'&quot;)"/>
-    <let name="navsatfix_topic_name" value="/imu/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='sbg'&quot;)"/>
+    <let name="navsatfix_topic_name" value="imu/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='sbg'&quot;)"/>
     <let name="orientation_topic_name" value="/autoware_orientation"/>
 
     <!-- Ublox Driver -->
