@@ -8,23 +8,23 @@
   <arg name="data_path" default="$(env HOME)/autoware_data" description="packages data and artifacts directory path"/>
 
   <!-- launch module preset -->
-  <arg name="planning_module_preset" default="default" description="planning module preset"/>
-  <arg name="control_module_preset" default="default" description="control module preset"/>
+  <arg name="planning_module_preset" default="nuway" description="planning module preset"/>
+  <arg name="control_module_preset" default="nuway" description="control module preset"/>
 
   <!-- Optional parameters -->
   <!-- Modules to be launched -->
-  <arg name="launch_vehicle" default="true" description="launch vehicle"/>
-  <arg name="launch_system" default="true" description="launch system"/>
+  <arg name="launch_vehicle" default="false" description="launch vehicle"/>
+  <arg name="launch_system" default="false" description="launch system"/>
   <arg name="launch_map" default="true" description="launch map"/>
-  <arg name="launch_sensing" default="true" description="launch sensing"/>
-  <arg name="launch_sensing_driver" default="true" description="launch sensing driver"/>
+  <arg name="launch_sensing" default="false" description="launch sensing"/>
+  <arg name="launch_sensing_driver" default="false" description="launch sensing driver"/>
   <arg name="launch_localization" default="true" description="launch localization"/>
   <arg name="launch_perception" default="false" description="launch perception"/>
   <arg name="launch_planning" default="true" description="launch planning"/>
   <arg name="launch_control" default="true" description="launch control"/>
   <arg name="launch_api" default="true" description="launch api"/>
   <!-- Global parameters -->
-  <arg name="use_sim_time" default="false" description="use_sim_time"/>
+  <arg name="use_sim_time" default="true" description="use_sim_time"/>
   <!-- Vehicle -->
   <arg name="vehicle_id" default="$(env VEHICLE_ID default)" description="vehicle specific ID"/>
   <arg name="launch_vehicle_interface" default="true" description="launch vehicle interface"/>
