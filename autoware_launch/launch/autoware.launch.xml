@@ -14,14 +14,14 @@
   <!-- Optional parameters -->
   <!-- Modules to be launched -->
   <arg name="launch_vehicle" default="true" description="launch vehicle"/>
-  <arg name="launch_system" default="true" description="launch system"/>
-  <arg name="launch_map" default="true" description="launch map"/>
+  <arg name="launch_system" default="false" description="launch system"/>
+  <arg name="launch_map" default="false" description="launch map"/>
   <arg name="launch_sensing" default="true" description="launch sensing"/>
   <arg name="launch_sensing_driver" default="true" description="launch sensing driver"/>
-  <arg name="launch_localization" default="true" description="launch localization"/>
+  <arg name="launch_localization" default="false" description="launch localization"/>
   <arg name="launch_perception" default="false" description="launch perception"/>
-  <arg name="launch_planning" default="true" description="launch planning"/>
-  <arg name="launch_control" default="true" description="launch control"/>
+  <arg name="launch_planning" default="false" description="launch planning"/>
+  <arg name="launch_control" default="false" description="launch control"/>
   <arg name="launch_api" default="true" description="launch api"/>
   <!-- Global parameters -->
   <arg name="use_sim_time" default="true" description="use_sim_time"/>
@@ -40,7 +40,7 @@
   <arg name="diagnostic_graph_aggregator_graph_path" default="$(find-pkg-share autoware_launch)/config/system/diagnostics/autoware-main.yaml" description="diagnostic graph config"/>
   <!-- Tools -->
   <arg name="rviz" default="true" description="launch rviz"/>
-  <arg name="rviz_config_name" default="autoware.rviz" description="rviz config name"/>
+  <arg name="rviz_config_name" default="autoware_nuway.rviz" description="rviz config name"/>
   <arg name="rviz_config" default="$(find-pkg-share autoware_launch)/rviz/$(var rviz_config_name)" description="rviz config path"/>
   <arg name="rviz_respawn" default="true"/>
   <!-- Perception -->
