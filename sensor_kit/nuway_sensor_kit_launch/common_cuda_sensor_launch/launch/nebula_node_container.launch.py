@@ -114,11 +114,7 @@ def launch_setup(context, *args, **kwargs):
 
     nodes.append(
         ComposableNode(
-<<<<<<< HEAD
-            package="nebula_ros",
-=======
             package="nebula_" + sensor_make.lower(),
->>>>>>> 4139483 (Working launcher)
             plugin=sensor_make + "RosWrapper",
             name=sensor_make.lower() + "_ros_wrapper_node",
             parameters=[
@@ -126,11 +122,8 @@ def launch_setup(context, *args, **kwargs):
                     "calibration_file": sensor_calib_fp,
                     "sensor_model": sensor_model,
                     "launch_hw": LaunchConfiguration("launch_driver"),
-<<<<<<< HEAD
-=======
                     "diag_span" : 1000,
                     "advanced_diagnostics": False,
->>>>>>> 4139483 (Working launcher)
                     **create_parameter_dict(
                         "host_ip",
                         "sensor_ip",
@@ -155,17 +148,11 @@ def launch_setup(context, *args, **kwargs):
                 # cSpell:ignore knzo25
                 # TODO(knzo25): fix the remapping once nebula gets updated
                 ("velodyne_points", "pointcloud_raw_ex"),
-<<<<<<< HEAD
-                # ("robosense_points", "pointcloud_raw_ex"), #for robosense
-                # ("pandar_points", "pointcloud_raw_ex"), # for hesai
-            ],
-=======
                 # ("velodyne_points", "pointcloud_before_sync")
                 # ("robosense_points", "pointcloud_raw_ex"), #for robosense
                 # ("pandar_points", "pointcloud_raw_ex"), # for hesai
             ],
             # arguments=["--ros-args", "--log-level", "debug"],
->>>>>>> 4139483 (Working launcher)
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
         )
     )

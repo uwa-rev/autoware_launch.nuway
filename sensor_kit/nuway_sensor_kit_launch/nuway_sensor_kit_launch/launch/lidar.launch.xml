@@ -5,21 +5,13 @@
   <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
   <arg name="vehicle_mirror_param_file"/>
   <arg name="pointcloud_container_name" default="pointcloud_container"/>
-  <arg name="use_cuda" default="true"/>
-
-  <let name="common_sensor_launch" value="common_sensor_launch" unless="$(var use_cuda)"/>
-  <let name="common_sensor_launch" value="common_cuda_sensor_launch" if="$(var use_cuda)"/>
 
   <group>
     <push-ros-namespace namespace="lidar"/>
 
     <group>
       <push-ros-namespace namespace="front"/>
-<<<<<<< HEAD
-      <include file="$(find-pkg-share $(var common_sensor_launch))/launch/velodyne_VLP16.launch.xml">
-=======
       <include file="$(find-pkg-share common_cuda_sensor_launch)/launch/velodyne_VLP16.launch.xml">
->>>>>>> 4139483 (Working launcher)
         <arg name="max_range" value="250.0"/>
         <arg name="sensor_frame" value="velodyne_front_link"/>
         <arg name="sensor_ip" value="192.168.5.28"/>
@@ -36,11 +28,7 @@
 
     <group>
       <push-ros-namespace namespace="rear"/>
-<<<<<<< HEAD
-      <include file="$(find-pkg-share $(var common_sensor_launch))/launch/velodyne_VLP16.launch.xml">
-=======
       <include file="$(find-pkg-share common_cuda_sensor_launch)/launch/velodyne_VLP16.launch.xml">
->>>>>>> 4139483 (Working launcher)
         <arg name="max_range" value="250.0"/>
         <arg name="sensor_frame" value="velodyne_rear_link"/>
         <arg name="sensor_ip" value="192.168.5.27"/>
@@ -59,7 +47,6 @@
       <arg name="base_frame" value="base_link"/>
       <arg name="use_intra_process" value="true"/>
       <arg name="use_multithread" value="true"/>
-      <arg name="use_cuda" value="$(var use_cuda)"/>
       <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
     </include>
   </group>
