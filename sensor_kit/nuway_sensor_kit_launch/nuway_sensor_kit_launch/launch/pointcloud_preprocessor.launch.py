@@ -38,8 +38,8 @@ def launch_setup(context, *args, **kwargs):
 
     # set concat filter as a component
     concat_component = ComposableNode(
-        package="autoware_pointcloud_preprocessor",
-        plugin="autoware::pointcloud_preprocessor::PointCloudConcatenateDataSynchronizerComponent",
+        package="autoware_cuda_pointcloud_preprocessor",
+        plugin="autoware::cuda_pointcloud_preprocessor::CudaPointCloudConcatenateDataSynchronizerComponent",
         name="concatenate_data",
         remappings=[
             ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
@@ -47,6 +47,7 @@ def launch_setup(context, *args, **kwargs):
             ("output_info", "concatenated/pointcloud_info"),
         ],
         parameters=[concatenate_and_time_sync_node_param],
+<<<<<<< HEAD
         extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
         condition=UnlessCondition(LaunchConfiguration("use_cuda"))
     )
@@ -62,7 +63,24 @@ def launch_setup(context, *args, **kwargs):
         ],
         parameters=[concatenate_and_time_sync_node_param],
         condition=IfCondition(LaunchConfiguration("use_cuda"))
+=======
+        # extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
+>>>>>>> 4139483 (Working launcher)
     )
+
+    # set concat filter as a component
+    # concat_component = ComposableNode(
+    #     package="autoware_pointcloud_preprocessor",
+    #     plugin="autoware::pointcloud_preprocessor::PointCloudConcatenateDataSynchronizerComponent",
+    #     name="concatenate_data",
+    #     remappings=[
+    #         ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
+    #         ("output", "concatenated/pointcloud"),
+    #         ("output_info", "concatenated/pointcloud_info"),
+    #     ],
+    #     parameters=[concatenate_and_time_sync_node_param],
+    #     extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
+    # )
 
     # load concat or passthrough filter
     concat_loader = LoadComposableNodes(

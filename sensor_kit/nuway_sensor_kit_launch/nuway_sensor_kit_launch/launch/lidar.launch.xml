@@ -1,6 +1,6 @@
 <launch>
   <arg name="launch_driver" default="true"/>
-  <arg name="host_ip" default="192.168.5.30"/>
+  <arg name="host_ip" default="192.168.5.29"/>
   <arg name="use_concat_filter" default="true"/>
   <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
   <arg name="vehicle_mirror_param_file"/>
@@ -15,7 +15,11 @@
 
     <group>
       <push-ros-namespace namespace="front"/>
+<<<<<<< HEAD
       <include file="$(find-pkg-share $(var common_sensor_launch))/launch/velodyne_VLP16.launch.xml">
+=======
+      <include file="$(find-pkg-share common_cuda_sensor_launch)/launch/velodyne_VLP16.launch.xml">
+>>>>>>> 4139483 (Working launcher)
         <arg name="max_range" value="250.0"/>
         <arg name="sensor_frame" value="velodyne_front_link"/>
         <arg name="sensor_ip" value="192.168.5.28"/>
@@ -32,7 +36,11 @@
 
     <group>
       <push-ros-namespace namespace="rear"/>
+<<<<<<< HEAD
       <include file="$(find-pkg-share $(var common_sensor_launch))/launch/velodyne_VLP16.launch.xml">
+=======
+      <include file="$(find-pkg-share common_cuda_sensor_launch)/launch/velodyne_VLP16.launch.xml">
+>>>>>>> 4139483 (Working launcher)
         <arg name="max_range" value="250.0"/>
         <arg name="sensor_frame" value="velodyne_rear_link"/>
         <arg name="sensor_ip" value="192.168.5.27"/>
