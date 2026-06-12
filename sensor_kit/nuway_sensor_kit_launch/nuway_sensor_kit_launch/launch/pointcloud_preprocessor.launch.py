@@ -37,19 +37,19 @@ def launch_setup(context, *args, **kwargs):
     )
 
     # set concat filter as a component
-    concat_component = ComposableNode(
-        package="autoware_pointcloud_preprocessor",
-        plugin="autoware::pointcloud_preprocessor::PointCloudConcatenateDataSynchronizerComponent",
-        name="concatenate_data",
-        remappings=[
-            ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
-            ("output", "concatenated/pointcloud"),
-            ("output_info", "concatenated/pointcloud_info"),
-        ],
-        parameters=[concatenate_and_time_sync_node_param],
-        extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
-        condition=UnlessCondition(LaunchConfiguration("use_cuda"))
-    )
+    # concat_component = ComposableNode(
+    #     package="autoware_pointcloud_preprocessor",
+    #     plugin="autoware::pointcloud_preprocessor::PointCloudConcatenateDataSynchronizerComponent",
+    #     name="concatenate_data",
+    #     remappings=[
+    #         ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
+    #         ("output", "concatenated/pointcloud"),
+    #         ("output_info", "concatenated/pointcloud_info"),
+    #     ],
+    #     parameters=[concatenate_and_time_sync_node_param],
+    #     extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
+    #     condition=UnlessCondition(LaunchConfiguration("use_cuda"))
+    # )
 
     concat_cuda_component = ComposableNode(
         package="autoware_cuda_pointcloud_preprocessor",
@@ -66,7 +66,7 @@ def launch_setup(context, *args, **kwargs):
 
     # load concat or passthrough filter
     concat_loader = LoadComposableNodes(
-        composable_node_descriptions=[concat_component, concat_cuda_component],
+        composable_node_descriptions=[concat_cuda_component],
         target_container=LaunchConfiguration("pointcloud_container_name"),
         condition=IfCondition(LaunchConfiguration("use_concat_filter")),
     )

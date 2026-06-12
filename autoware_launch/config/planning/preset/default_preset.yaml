@@ -41,7 +41,7 @@ launch:
       default: "true"
   - arg:
       name: launch_bidirectional_traffic_module
-      default: "false" #"true"
+      default: "true"
 
   # behavior velocity modules
   - arg:
