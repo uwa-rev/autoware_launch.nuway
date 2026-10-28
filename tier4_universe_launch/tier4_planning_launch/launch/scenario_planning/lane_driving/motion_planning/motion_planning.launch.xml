@@ -8,12 +8,33 @@
   <arg name="launch_obstacle_slow_down_module" default="true"/>
   <arg name="launch_obstacle_cruise_module" default="true"/>
   <arg name="launch_dynamic_obstacle_stop_module" default="true"/>
+  <!-- Test  -->
+
   <arg name="launch_out_of_lane_module" default="true"/>
   <arg name="launch_obstacle_velocity_limiter_module" default="true"/>
   <arg name="launch_run_out_module" default="true"/>
   <arg name="launch_boundary_departure_prevention_module" default="true"/>
   <arg name="launch_road_user_stop_module" default="true"/>
+
+  <!-- Test -->
+  <arg name="launch_pedestrian_speed_matching_module" default="true"/>
+  <arg name="launch_people_as_planner_module" default="false"/>
+  <include file="$(find-pkg-share tier4_planning_launch)/launch/scenario_planning/lane_driving/motion_planning/check_pedestrian_modules.launch.py"/>
+  <let name="launch_custom_pedestrian_module" value="$(eval &quot;str('$(var launch_pedestrian_speed_matching_module)'.lower() in ('true', '1') or '$(var launch_people_as_planner_module)'.lower() in ('true', '1'))&quot;)"/>
+
   <arg name="launch_module_list_end" default="&quot;&quot;]"/>
+
+  <arg name="motion_velocity_planner_pedestrian_speed_matching_module_param_path" default="$(find-pkg-share autoware_launch)/config/planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/pedestrian_speed_matching.param.yaml"/>
+  <arg name="motion_velocity_planner_pedestrian_speed_matching_overrides_param_path" default="$(find-pkg-share autoware_launch)/config/planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/pedestrian_speed_matching_overrides.param.yaml"/>
+  <arg name="motion_velocity_planner_people_as_planner_module_param_path" default="$(find-pkg-share autoware_launch)/config/planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/people_as_planner.param.yaml"/>
+  <arg name="motion_velocity_planner_empty_param_path" default="$(find-pkg-share autoware_launch)/config/planning/scenario_planning/lane_driving/motion_planning/motion_velocity_planner/empty.param.yaml"/>
+  <let name="pedestrian_speed_matching_overrides_param_path" value="$(var motion_velocity_planner_pedestrian_speed_matching_overrides_param_path)" if="$(var launch_custom_pedestrian_module)"/>
+  <let name="pedestrian_speed_matching_overrides_param_path" value="$(var motion_velocity_planner_empty_param_path)" unless="$(var launch_custom_pedestrian_module)"/>
+  <let name="pedestrian_speed_matching_param_path" value="$(var motion_velocity_planner_pedestrian_speed_matching_module_param_path)" if="$(var launch_pedestrian_speed_matching_module)"/>
+  <let name="pedestrian_speed_matching_param_path" value="$(var motion_velocity_planner_empty_param_path)" unless="$(var launch_pedestrian_speed_matching_module)"/>
+
+  <let name="people_as_planner_param_path" value="$(var motion_velocity_planner_people_as_planner_module_param_path)" if="$(var launch_people_as_planner_module)"/>
+  <let name="people_as_planner_param_path" value="$(var motion_velocity_planner_empty_param_path)" unless="$(var launch_people_as_planner_module)"/>
 
   <!-- assemble launch config for motion velocity planner -->
   <arg name="motion_velocity_planner_launch_modules" default="["/>
@@ -61,6 +82,17 @@
     name="motion_velocity_planner_launch_modules"
     value="$(eval &quot;'$(var motion_velocity_planner_launch_modules)' + 'autoware::motion_velocity_planner::RoadUserStopModule, '&quot;)"
     if="$(var launch_road_user_stop_module)"
+  />
+  <let
+    name="motion_velocity_planner_launch_modules"
+    value="$(eval &quot;'$(var motion_velocity_planner_launch_modules)' + 'autoware::motion_velocity_planner::PedestrianSpeedMatchingModule, '&quot;)"
+    if="$(var launch_pedestrian_speed_matching_module)"
+  />
+
+  <let
+    name="motion_velocity_planner_launch_modules"
+    value="$(eval &quot;'$(var motion_velocity_planner_launch_modules)' + 'autoware::motion_velocity_planner::PeopleAsPlannerModule, '&quot;)"
+    if="$(var launch_people_as_planner_module)"
   />
 
   <let name="motion_velocity_planner_launch_modules" value="$(eval &quot;'$(var motion_velocity_planner_launch_modules)' + '$(var launch_module_list_end)'&quot;)"/>
@@ -206,6 +238,9 @@
         <param from="$(var motion_velocity_planner_run_out_param_path)"/>
         <param from="$(var motion_velocity_planner_boundary_departure_prevention_module_param_path)"/>
         <param from="$(var motion_velocity_planner_road_user_stop_module_param_path)"/>
+        <param from="$(var pedestrian_speed_matching_param_path)"/>
+        <param from="$(var people_as_planner_param_path)"/>
+        <param from="$(var pedestrian_speed_matching_overrides_param_path)"/>
         <!-- <param from="$(var motion_velocity_planner_template_param_path)"/> -->
         <!-- composable node config -->
         <extra_arg name="use_intra_process_comms" value="false"/>

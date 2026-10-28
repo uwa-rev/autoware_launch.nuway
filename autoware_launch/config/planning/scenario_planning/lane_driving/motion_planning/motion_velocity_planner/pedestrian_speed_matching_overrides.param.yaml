@@ -1,0 +1,10 @@
+/**:
+  ros__parameters:
+    obstacle_stop:
+      obstacle_filtering:
+        check_inside:
+          pedestrian: false
+    road_user_stop:
+      obstacle_filtering:
+        object_type:
+          pedestrian: false

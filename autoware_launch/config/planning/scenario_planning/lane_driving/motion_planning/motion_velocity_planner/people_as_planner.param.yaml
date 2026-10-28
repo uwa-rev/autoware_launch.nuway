@@ -1,0 +1,57 @@
+/**:
+  ros__parameters:
+    people_as_planner:
+      target_labels: ["PEDESTRIAN"]
+      min_existence_probability: 0.0
+      detection_range: 30.0
+      rear_margin: 1.1
+      max_lateral_distance: 10.0
+      min_path_confidence: 0.3
+      use_only_highest_confidence_path: false
+      resample_dt: 0.1
+      stopped_speed_threshold: 0.25
+      lost_object_retention: 1.0
+      corridor:
+        lateral_margin: 0.5
+        min_ego_velocity_for_time: 0.5
+      follow:
+        lateral_margin: 0.5
+        min_speed: 0.3
+        max_lat_speed: 0.5
+        max_heading_diff: 0.785
+        min_gap: 3.0
+        time_headway: 1.5
+        k_gap: 0.3
+        max_speed_above_ped: 1.0
+        min_follow_speed: 0.2
+        restart_hysteresis: 0.5
+        lpf_gain: 0.7
+      yield:
+        time_horizon: 8.0
+        ped_margin: 0.3
+        time_margin: 1.5
+        decel: 1.0
+        min_slow_speed: 0.8
+        stop_margin: 2.0
+      stop:
+        margin: 3.0
+        check_distance: 15.0
+        hold_velocity_threshold: 0.01
+        hold_distance_threshold: 0.3
+      hysteresis:
+        on_time: 0.3
+        off_time: 1.0
+      debug:
+        enable_markers: true
+      leader:
+        enable: true
+        history_duration: 1.0
+        min_observations: 3
+        range: 10.0
+        preferred_speed: 1.4
+        heading_weight: 1.0
+        speed_weight: 0.5
+        position_weight: 1.0
+        incumbent_bonus: 0.05
+        group_distance: 2.0
+        group_velocity_difference: 0.5

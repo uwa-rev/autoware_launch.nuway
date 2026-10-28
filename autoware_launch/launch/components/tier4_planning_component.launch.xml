@@ -114,6 +114,16 @@
     <arg name="motion_velocity_planner_boundary_departure_prevention_module_param_path" value="$(var motion_config_path)/motion_velocity_planner/boundary_departure_prevention.param.yaml"/>
     <arg name="motion_velocity_planner_road_user_stop_module_param_path" value="$(var motion_config_path)/motion_velocity_planner/road_user_stop.param.yaml"/>
     <arg
+      name="motion_velocity_planner_pedestrian_speed_matching_module_param_path"
+      value="$(var motion_config_path)/motion_velocity_planner/pedestrian_speed_matching.param.yaml"
+    />
+    <arg
+      name="motion_velocity_planner_people_as_planner_module_param_path"
+      value="$(var motion_config_path)/motion_velocity_planner/people_as_planner.param.yaml"
+    />
+    <arg name="motion_velocity_planner_pedestrian_speed_matching_overrides_param_path" value="$(var motion_config_path)/motion_velocity_planner/pedestrian_speed_matching_overrides.param.yaml"/>
+    <arg name="motion_velocity_planner_empty_param_path" value="$(var motion_config_path)/motion_velocity_planner/empty.param.yaml"/>
+    <arg
       name="motion_velocity_planner_velocity_smoother_type_param_path"
       value="$(find-pkg-share autoware_launch)/config/planning/scenario_planning/common/autoware_velocity_smoother/Analytical.param.yaml"
     />

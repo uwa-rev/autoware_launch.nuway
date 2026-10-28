@@ -104,7 +104,7 @@ launch:
   # motion velocity planner modules
   - arg:
       name: launch_obstacle_stop_module
-      default: "true"
+      default: "false"
   - arg:
       name: launch_obstacle_slow_down_module
       default: "true"
@@ -129,6 +129,12 @@ launch:
   - arg:
       name: launch_road_user_stop_module
       default: "true"
+  - arg:
+      name: launch_pedestrian_speed_matching_module
+      default: "true"
+  - arg:
+      name: launch_people_as_planner_module
+      default: "false"
 
   - arg:
       name: velocity_smoother_type
