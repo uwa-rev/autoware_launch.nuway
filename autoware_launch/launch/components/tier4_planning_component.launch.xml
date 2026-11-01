@@ -121,6 +121,7 @@
       name="motion_velocity_planner_people_as_planner_module_param_path"
       value="$(var motion_config_path)/motion_velocity_planner/people_as_planner.param.yaml"
     />
+    <arg name="motion_velocity_planner_sfm_module_param_path" value="$(var motion_config_path)/motion_velocity_planner/sfm.param.yaml"/>
     <arg name="motion_velocity_planner_pedestrian_speed_matching_overrides_param_path" value="$(var motion_config_path)/motion_velocity_planner/pedestrian_speed_matching_overrides.param.yaml"/>
     <arg name="motion_velocity_planner_empty_param_path" value="$(var motion_config_path)/motion_velocity_planner/empty.param.yaml"/>
     <arg

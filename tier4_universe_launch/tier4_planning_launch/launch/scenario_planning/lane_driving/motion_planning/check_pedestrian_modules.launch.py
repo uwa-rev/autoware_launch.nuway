@@ -20,14 +20,23 @@ from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 
 
+PEDESTRIAN_MODULE_FLAGS = (
+    'launch_pedestrian_speed_matching_module',
+    'launch_people_as_planner_module',
+    'launch_sfm_module',
+)
+
+
 def validate_modules(context):
-    legacy = IfCondition(LaunchConfiguration('launch_pedestrian_speed_matching_module'))
-    people = IfCondition(LaunchConfiguration('launch_people_as_planner_module'))
-    if legacy.evaluate(context) and people.evaluate(context):
+    enabled = [
+        flag for flag in PEDESTRIAN_MODULE_FLAGS
+        if IfCondition(LaunchConfiguration(flag, default='false')).evaluate(context)]
+    if len(enabled) > 1:
         raise RuntimeError(
-            'Select one pedestrian velocity module: set '
+            'Select one pedestrian velocity module, but ' + ', '.join(enabled) +
+            ' are enabled. Set the others to false, e.g. '
             'launch_pedestrian_speed_matching_module:=false when enabling '
-            'launch_people_as_planner_module:=true')
+            'launch_people_as_planner_module:=true or launch_sfm_module:=true')
     return []
 
 

@@ -253,7 +253,7 @@ def launch_setup(context, *args, **kwargs):
             name="cuda_pointcloud_preprocessor",
             remappings=[
                 ("~/input/pointcloud", "pointcloud_raw_ex"),
-                ("~/input/twist", "sensing/vehicle_velocity_converter/twist_with_covariance"),
+                ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
                 ("~/input/imu", "/sensing/imu/imu_data"),
                 ("~/output/pointcloud", "pointcloud_before_sync")
             ],

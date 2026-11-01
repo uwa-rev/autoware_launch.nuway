@@ -1,0 +1,42 @@
+/**:
+  ros__parameters:
+    sfm:
+      # crowd_matching | classical | crowd_only | following_only | classical_following | crowd_matching_pid
+      mode: "crowd_matching"
+
+      desired_velocity: 1.39        # m/s (5 km/h campus speed)
+      relaxation_time: 2.0          # s
+      min_velocity: 0.0             # m/s (allow full stop)
+      stop_velocity_threshold: 0.05 # m/s
+
+      target_labels: ["PEDESTRIAN"]
+      detection_radius: 15.0        # m
+      pedestrian_radius: 0.3        # m
+      vehicle_half_width: 1.2       # m (<= 0 uses vehicle_info)
+      lateral_margin: 0.5           # m
+
+      # Following ramp, measured from the front bumper
+      braking_distance: 10.0        # m
+      min_clearance: 3.0            # m
+
+      # Crowd matching
+      co_flow_threshold: 0.3        # m/s
+      min_crowd_size: 1
+      crowd_hold_time: 1.5          # s
+
+      # Classical (Helbing & Molnar 1995)
+      interaction_strength: 2.1
+      interaction_range: 0.3        # m
+      safety_buffer_k: 2.0          # s
+      force_saturation: 10.0
+
+      # PID gap controller
+      pid_desired_distance: 5.0     # m
+      pid_kp: 0.15
+      pid_ki: 0.02
+      pid_kd: 0.05
+      pid_integral_limit: 5.0
+
+      debug:
+        enable_markers: true
+        csv_path: ""                # e.g. /tmp/cm_target.csv for analyze_results.py
