@@ -27,7 +27,7 @@
     <!-- SBG GNSS Driver -->
     <group if="$(eval &quot;'$(var launch_driver)' and '$(var gnss_receiver)'=='sbg'&quot;)">
       <node pkg="sbg_driver" name="sbg_device" exec="sbg_device">
-        <param from="$(find-pkg-share nuway_sensor_kit_launch)/config/sbg_params.yaml"/>
+        <param from="$(find-pkg-share nuway_sensor_kit_launch)/config/sbg_params2.yaml"/>
       </node>
     </group>
 

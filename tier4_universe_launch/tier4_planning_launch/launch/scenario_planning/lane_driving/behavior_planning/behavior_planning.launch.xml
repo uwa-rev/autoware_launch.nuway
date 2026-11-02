@@ -43,6 +43,7 @@
   <arg name="launch_occlusion_spot_module" default="true"/>
   <arg name="launch_speed_bump_module" default="true"/>
   <arg name="launch_no_drivable_lane_module" default="true"/>
+  <arg name="launch_pedestrian_danger_zone_module" default="false"/>
 
   <arg name="launch_module_list_end" default="&quot;&quot;]"/>
 
@@ -182,6 +183,11 @@
     value="$(eval &quot;'$(var behavior_velocity_planner_launch_modules)' + 'autoware::behavior_velocity_planner::experimental::NoDrivableLaneModulePlugin, '&quot;)"
     if="$(var launch_no_drivable_lane_module)"
   />
+  <let
+    name="behavior_velocity_planner_launch_modules"
+    value="$(eval &quot;'$(var behavior_velocity_planner_launch_modules)' + 'autoware::behavior_velocity_planner::experimental::PedestrianDangerZoneModulePlugin, '&quot;)"
+    if="$(var launch_pedestrian_danger_zone_module)"
+  />
   <let name="behavior_velocity_planner_launch_modules" value="$(eval &quot;'$(var behavior_velocity_planner_launch_modules)' + '$(var launch_module_list_end)'&quot;)"/>
 
   <node_container pkg="$(var container_package)" exec="$(var container_executable)" name="behavior_planning_container" namespace="" args="" output="both">
@@ -227,6 +233,7 @@
       <param from="$(var behavior_velocity_planner_no_stopping_area_module_param_path)"/>
       <param from="$(var behavior_velocity_planner_speed_bump_module_param_path)"/>
       <param from="$(var behavior_velocity_planner_no_drivable_lane_module_param_path)"/>
+      <param from="$(var behavior_velocity_planner_pedestrian_danger_zone_module_param_path)"/>
       <!-- composable node config -->
       <extra_arg name="use_intra_process_comms" value="false"/>
     </composable_node>

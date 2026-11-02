@@ -86,6 +86,9 @@ launch:
   - arg:
       name: launch_no_drivable_lane_module
       default: "false"
+  - arg:
+      name: launch_pedestrian_danger_zone_module
+      default: "false"
 
   # motion planning modules
   - arg:

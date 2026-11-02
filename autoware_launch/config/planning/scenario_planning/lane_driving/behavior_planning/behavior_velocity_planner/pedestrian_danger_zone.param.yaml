@@ -1,0 +1,35 @@
+/**:
+  ros__parameters:
+    pedestrian_danger_zone:
+      target_labels: ["PEDESTRIAN"]
+      min_existence_probability: 0.0
+      detection_range: 40.0
+      lane:
+        lateral_margin: 0.0
+        use_lanelet_fallback: true
+      zone1:
+        min_length: 5.0
+        reaction_time: 0.5
+        decel: 2.0
+        margin: 1.0
+        rear_margin: 0.5
+      zone2:
+        length: 10.0
+        speed_scaled: false
+        time_headway: 3.0
+        min_velocity: 0.8
+        max_velocity: 2.5
+      prediction:
+        horizon: 1.5
+        dt: 0.25
+        min_confidence: 0.1
+      stop:
+        margin: 1.5
+        hold_velocity_threshold: 0.3
+        hold_distance_threshold: 1.0
+      hysteresis:
+        on_time: 0.2
+        off_time: 1.0
+        lost_object_retention: 0.5
+      debug:
+        enable_markers: true

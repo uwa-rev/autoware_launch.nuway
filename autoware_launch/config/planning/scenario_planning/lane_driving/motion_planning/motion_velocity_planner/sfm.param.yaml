@@ -14,6 +14,7 @@
       pedestrian_radius: 0.3        # m
       vehicle_half_width: 1.2       # m (<= 0 uses vehicle_info)
       lateral_margin: 0.5           # m
+      max_heading_deviation: 0.785398 # rad (45 deg), pedestrians walking with ego only
 
       # Following ramp, measured from the front bumper
       braking_distance: 10.0        # m

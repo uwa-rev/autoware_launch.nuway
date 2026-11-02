@@ -52,10 +52,10 @@ launch:
       default: "true"
   - arg:
       name: launch_traffic_light_module
-      default: "true"
+      default: "false"
   - arg:
       name: launch_intersection_module
-      default: "true"
+      default: "false"
   - arg:
       name: launch_roundabout_module
       default: "false"
@@ -70,13 +70,13 @@ launch:
       default: "true"
   - arg:
       name: launch_virtual_traffic_light_module
-      default: "true"
+      default: "false"
   - arg:
       name: launch_no_stopping_area_module
-      default: "true"
+      default: "false"
   - arg:
       name: launch_stop_line_module
-      default: "true"
+      default: "false"
   - arg:
       name: launch_occlusion_spot_module
       default: "false"
@@ -86,6 +86,9 @@ launch:
   - arg:
       name: launch_no_drivable_lane_module
       default: "false"
+  - arg:
+      name: launch_pedestrian_danger_zone_module
+      default: "true"
 
   # motion planning modules
   - arg:
@@ -134,10 +137,10 @@ launch:
       default: "false"
   - arg:
       name: launch_people_as_planner_module
-      default: "true"
+      default: "false"
   - arg:
       name: launch_sfm_module
-      default: "false"
+      default: "true"
 
   - arg:
       name: velocity_smoother_type
