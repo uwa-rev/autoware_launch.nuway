@@ -15,7 +15,7 @@
       enable: true
       use2D: true
       # Publish odometry transforms.
-      publishTf: true
+      publishTf: false
       # Odometry frame IDs.
       odomFrameId: "odom"
       baseFrameId: "base_link"
@@ -275,7 +275,7 @@
       # Note: Frame of the GNSS antenna. GPS position, velocity and true heading
       #       logs are expressed at the antenna phase center, not at the IMU.
       #       If not set, it defaults to frame_id.
-      gps_frame_id: "gps_link"
+      gps_frame_id: "imu_link"
     
       # Status general, clock, com aiding, solution, heave
       log_status: 200

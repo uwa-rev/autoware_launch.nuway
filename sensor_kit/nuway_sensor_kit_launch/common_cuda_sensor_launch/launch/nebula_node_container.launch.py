@@ -114,7 +114,7 @@ def launch_setup(context, *args, **kwargs):
 
     nodes.append(
         ComposableNode(
-            package="nebula_ros",
+            package="nebula_" + sensor_make.lower(),
             plugin=sensor_make + "RosWrapper",
             name=sensor_make.lower() + "_ros_wrapper_node",
             parameters=[
@@ -122,6 +122,8 @@ def launch_setup(context, *args, **kwargs):
                     "calibration_file": sensor_calib_fp,
                     "sensor_model": sensor_model,
                     "launch_hw": LaunchConfiguration("launch_driver"),
+                    "diag_span" : 1000,
+                    "advanced_diagnostics": False,
                     **create_parameter_dict(
                         "host_ip",
                         "sensor_ip",
@@ -146,9 +148,11 @@ def launch_setup(context, *args, **kwargs):
                 # cSpell:ignore knzo25
                 # TODO(knzo25): fix the remapping once nebula gets updated
                 ("velodyne_points", "pointcloud_raw_ex"),
+                # ("velodyne_points", "pointcloud_before_sync")
                 # ("robosense_points", "pointcloud_raw_ex"), #for robosense
                 # ("pandar_points", "pointcloud_raw_ex"), # for hesai
             ],
+            # arguments=["--ros-args", "--log-level", "debug"],
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
         )
     )
@@ -253,7 +257,7 @@ def launch_setup(context, *args, **kwargs):
             name="cuda_pointcloud_preprocessor",
             remappings=[
                 ("~/input/pointcloud", "pointcloud_raw_ex"),
-                ("~/input/twist", "/sensing/vehicle_velocity_converter/twist_with_covariance"),
+                ("~/input/twist", "sensing/vehicle_velocity_converter/twist_with_covariance"),
                 ("~/input/imu", "/sensing/imu/imu_data"),
                 ("~/output/pointcloud", "pointcloud_before_sync")
             ],
