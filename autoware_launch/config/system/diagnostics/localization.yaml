@@ -31,6 +31,7 @@ units:
     type: diag
     node: ndt_scan_matcher
     name: scan_matching_status
+    hysteresis: 0.5 # Test
 
   - path: /autoware/localization/accuracy
     type: diag
@@ -41,3 +42,4 @@ units:
     type: diag
     node: localization
     name: ekf_localizer
+    hysteresis: 0.5 # Test
